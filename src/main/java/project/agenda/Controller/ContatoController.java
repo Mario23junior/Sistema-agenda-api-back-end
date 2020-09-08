@@ -49,10 +49,11 @@ public class ContatoController {
      
      // favoritando contato do tipo booleano
      @PatchMapping("{id}/favorito")
-     public void favorite( @PathVariable Integer id, Boolean favorito) {
+     public void favorite( @PathVariable Integer id) {
     	 Optional<Contato> contato = repository.findById(id);
     	 contato.ifPresent(c -> {
-    		  c.setFavorito(favorito);
+    		  boolean favorito = c.getFavorito() == Boolean.TRUE;
+    		  c.setFavorito(!favorito);
     		  repository.save(c);
     	 });
      }

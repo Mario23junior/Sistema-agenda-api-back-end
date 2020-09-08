@@ -26,5 +26,5 @@ public class Contato {
 	private String email;
     
     @Column
- 	private boolean favorito;
+ 	private Boolean favorito;
 }
