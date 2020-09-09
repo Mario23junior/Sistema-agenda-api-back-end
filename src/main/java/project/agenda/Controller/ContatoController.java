@@ -7,8 +7,9 @@ import java.util.Optional;
 import javax.servlet.http.Part;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.data.domain.Page;
+ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+ 
 import lombok.RequiredArgsConstructor;
 import project.agenda.model.Contato;
 import project.agenda.repository.ContatoRepository;
@@ -53,10 +55,14 @@ public class ContatoController {
      public Page<Contato> list( @RequestParam(value = "page", defaultValue = "0") Integer pagina, 
     		                    @RequestParam(value = "size", defaultValue = "10") Integer tamanhoPagina
       ){
-    	 PageRequest pageRequest = PageRequest.of(pagina, tamanhoPagina);
+    	 //Ordenando lista
+    	 Sort sort = Sort.by(Sort.Direction.ASC, "nome");
+    	 PageRequest pageRequest = PageRequest.of(pagina, tamanhoPagina, sort);
     	 return repository.findAll(pageRequest);
+    	 
      }
      
+      
      // favoritando contato do tipo booleano
      @PatchMapping("{id}/favorito")
      public void favorite( @PathVariable Integer id) {
